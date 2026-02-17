@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estoque e Vendas</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f4f4f4; }
+        h1 { color: #333; }
+        form, table { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        input, button { margin: 5px 0; padding: 8px; width: 100%; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+        .low-stock { background-color: #ffdddd; }
+    </style>
+</head>
+<body>
+    <h1>Cadastro de Roupa</h1>
+    <form method="POST" action="cadastro.php">
+        <input type="text" name="nome" placeholder="Nome da Roupa" required>
+        <input type="number" name="preco_entrada" step="0.01" placeholder="Preço de Entrada" required>
+        <input type="number" name="preco_venda" step="0.01" placeholder="Preço de Venda" required>
+        <input type="number" name="quantidade" placeholder="Quantidade" required>
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <h1>Estoque Atual</h1>
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Preço Entrada</th>
+            <th>Preço Venda</th>
+            <th>Quantidade</th>
+            <th>Ações</th>
+        </tr>
+        <?php
+        $conn = new mysqli("localhost", "root", "", "estoque");
+        $result = $conn->query("SELECT * FROM roupas");
+        while($row = $result->fetch_assoc()):
+            $classe = $row['quantidade'] < 10 ? 'low-stock' : '';
+        ?>
+        <tr class="<?php echo $classe; ?>">
+            <td><?php echo $row['nome']; ?></td>
+            <td>R$ <?php echo number_format($row['preco_entrada'], 2, ',', '.'); ?></td>
+            <td>R$ <?php echo number_format($row['preco_venda'], 2, ',', '.'); ?></td>
+            <td><?php echo $row['quantidade']; ?></td>
+            <td>
+                <form method="POST" action="venda.php" style="display:inline-block">
+                    <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                    <input type="number" name="quantidade" placeholder="Qtd Venda" required>
+                    <button type="submit">Vender</button>
+                </form>
+            </td>
+        </tr>
+        <?php endwhile; ?>
+    </table>
+</body>
+</html>
