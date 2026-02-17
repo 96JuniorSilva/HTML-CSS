@@ -16,4 +16,4 @@ Criando e gerenciando sites e repositórios
 
 <a href="https://96juniorsilva.github.io/HTML-CSS/exercic%C3%ADcios/ex16/cor.html">ex16</a>
 
-<a href="https://96juniorsilva.github.io/HTML-CSS/exercic%C3%ADcios/ex21/caixa01.html">ex21</a>
+<a href="https://96juniorsilva.github.io/HTML-CSS/exercic%C3%ADcios/EX21/caixa01.html">EX21</a>
